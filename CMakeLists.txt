@@ -8,6 +8,8 @@ add_library(Scheduler SHARED
 			Scheduler.cpp 
 			DFScheduler.cpp
 			EDFScheduler.cpp
+			LLFScheduler.cpp
+			${CMAKE_SOURCE_DIR}/include/RTSScheduler/LLFScheduler.h 
 			${CMAKE_SOURCE_DIR}/include/RTSScheduler/EDFScheduler.h 
 			${CMAKE_SOURCE_DIR}/include/RTSScheduler/DFScheduler.h 
 			${CMAKE_SOURCE_DIR}/include/RTSScheduler/RMScheduler.h 
@@ -16,6 +18,7 @@ add_library(Scheduler SHARED
 )
 
 target_include_directories(Scheduler PUBLIC ${CMAKE_SOURCE_DIR}/include)
+install (TARGETS Scheduler RUNTIME DESTINATION "${CMAKE_SOURCE_DIR}/install")
 
 add_subdirectory(application)
 

@@ -13,10 +13,10 @@ public:
         void loadTasks(std::vector < TaskInfo >&); 
 
         // returns 0 if there are no tasks
-        float feasibilityCheck(); 
+        //float feasibilityCheck(); 
 
         // 
-        void schedule();
+        void schedule(mtime_t end);
 
                 
         virtual bool comparePriority(Task& lhs, Task& rhs) = 0;
@@ -24,7 +24,6 @@ public:
                 
 
 private:
-
+		std::string getStatus();
         std::map<id_t, std::unique_ptr<Task> > m_tasks;
-        mtime_t hyperperiod;
 };
