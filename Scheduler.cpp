@@ -2,7 +2,6 @@
 #include <queue>
 #include <numeric>
 #include <RTSScheduler/Scheduler.h>
-#include <iostream>
 #include <sstream>
 
 // Utility function to find
@@ -27,6 +26,11 @@ mtime_t findlcm(std::vector< mtime_t >& arr)
 		(gcd(arr[i], ans)));
 
 	return ans;
+}
+
+Scheduler::Scheduler() : outputStream("outputStream.txt")
+{
+
 }
 
 void Scheduler::loadTasks(std::vector < TaskInfo >& tasks)
@@ -59,15 +63,12 @@ void Scheduler::schedule(mtime_t end)
 		m_dispatchQueue.push_back(t.first);
 	}
 
-	std::cout << m_dispatchQueue.size() << std::endl;
-
 	for (mtime_t time = 1; time < end + 1; time++)
 	{
 		// dispatch ready tasks
 		for (int i = 0; i < m_dispatchQueue.size(); i++)
 		{
 			auto id = m_dispatchQueue.begin() + i;
-			std::cout << "dispatch " << i << std::endl;
 			if (m_tasks[*id]->isReady(time))
 			{
 				m_activeQueue.push_back(*id);
@@ -134,8 +135,8 @@ void Scheduler::schedule(mtime_t end)
 					lastStatText = s.str();
 				}
 
+				outputStream << lastStatText << std::endl;
 
-				std::cout << lastStatText << std::endl;
 				lastStatText = "";
 				s.str(std::string());
 			}
@@ -167,7 +168,15 @@ void Scheduler::schedule(mtime_t end)
 
 		for (auto& t : m_tasks)
 		{
+			if (t.second->deadlineMiss(time))
+			{
+				outputStream << "deadline miss: T" << t.first << " at time: " << time << std::endl;
+
+			}
+				
+
 			t.second->cycle(time);
+			
 		}
 	}
 

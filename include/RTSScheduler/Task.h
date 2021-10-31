@@ -5,11 +5,10 @@ typedef unsigned mtime_t;
 
 struct TaskInfo
 {
-        mtime_t releaseTime;
-        mtime_t period;
-        mtime_t deadline;
-        mtime_t exeTime;
-        mtime_t dispatchTime;
+        mtime_t period = 0;
+        mtime_t deadline = 0;
+        mtime_t exeTime = 0;
+        mtime_t dispatchTime = 0;
 };
 
 class Task
@@ -24,12 +23,11 @@ public:
 		}
 
         void cycle(mtime_t current_time)
-        {
-                if(remainingExe == 0)
-                        instanceCount++;
+        {    
 
                 if((current_time % m_info.period) == 0)
                 {
+						instanceCount++;
                         remainingExe = m_info.exeTime;
 						effectiveDeadline = current_time + (m_info.deadline == 0 ? m_info.period : m_info.deadline);
 						laxity = m_info.exeTime;
@@ -48,12 +46,12 @@ public:
 
         bool isReady(mtime_t time)
         {
-                return !isFinished() && (time >= m_info.dispatchTime);
+                return !isFinished() && (time > m_info.dispatchTime);
         }
 
 		bool deadlineMiss(mtime_t time)
 		{
-			return time > effectiveDeadline;
+			return (time > effectiveDeadline) && !isFinished();
 		}
 
 		unsigned getInstanceCount()

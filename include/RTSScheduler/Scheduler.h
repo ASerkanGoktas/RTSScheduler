@@ -4,11 +4,13 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <fstream>
 
 // Abstract class for all schedulers
 class Scheduler
 {
 public:
+		Scheduler();
         // loads the tasks.
         void loadTasks(std::vector < TaskInfo >&); 
 
@@ -26,4 +28,5 @@ public:
 private:
 		std::string getStatus();
         std::map<id_t, std::unique_ptr<Task> > m_tasks;
+		std::ofstream outputStream;
 };
