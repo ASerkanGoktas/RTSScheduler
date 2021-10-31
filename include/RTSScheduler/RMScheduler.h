@@ -1,10 +1,12 @@
+#pragma once
 #include <RTSScheduler/Scheduler.h>
 
 class RMScheduler : public Scheduler
 {
         public:
-                RMScheduler() : Scheduler()
-                {}
+			RMScheduler() = default;
+
+				virtual ~RMScheduler() = default;
 
 				virtual bool comparePriority(Task& lhs, Task& rhs) override;
 };

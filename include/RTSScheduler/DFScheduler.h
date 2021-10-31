@@ -7,5 +7,7 @@ public:
 	DFScheduler() : Scheduler()
 	{}
 
+	virtual ~DFScheduler() = default;
+
 	virtual bool comparePriority(Task& lhs, Task& rhs) override;
 };

@@ -1,4 +1,4 @@
-
+#pragma once
 
 typedef unsigned id_t;
 typedef unsigned mtime_t;

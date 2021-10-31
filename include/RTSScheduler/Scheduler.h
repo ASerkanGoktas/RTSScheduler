@@ -1,4 +1,4 @@
-
+#pragma once
 
 #include <RTSScheduler/Task.h>
 #include <map>
@@ -10,7 +10,8 @@
 class Scheduler
 {
 public:
-		Scheduler();
+	Scheduler();
+	virtual ~Scheduler() = default;
         // loads the tasks.
         void loadTasks(std::vector < TaskInfo >&); 
 

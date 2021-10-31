@@ -5,8 +5,8 @@
 class LLFScheduler : public Scheduler
 {
 public:
-	LLFScheduler() : Scheduler()
-	{}
+	LLFScheduler() = default;
+	~LLFScheduler() = default;
 
 	virtual bool comparePriority(Task& lhs, Task& rhs) override;
 };
