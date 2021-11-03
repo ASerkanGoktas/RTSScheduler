@@ -14,3 +14,10 @@ When you built and installed, the install folder should seem like this:
 
 You can put the example task file or create your own and run `application tasks.txt`
 The output will be in `outputStream.txt`
+
+## Task File Description
+
+Scheduler Name (EDF, LLF, RM, DF) \
+Task count \
+End time \
+Release time - Period - Execution time - deadline // for tasks
