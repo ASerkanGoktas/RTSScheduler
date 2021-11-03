@@ -24,9 +24,12 @@ public:
                 
         virtual bool comparePriority(Task& lhs, Task& rhs) = 0;
 
-                
+protected:
+		const std::string m_name;
+		mtime_t getCurrentTime();
 
 private:
+		mtime_t m_time;
 		std::string getStatus();
         std::map<id_t, std::unique_ptr<Task> > m_tasks;
 		std::ofstream outputStream;

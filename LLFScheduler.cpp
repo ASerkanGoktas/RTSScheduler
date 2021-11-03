@@ -2,5 +2,6 @@
 
 bool LLFScheduler::comparePriority(Task& lhs, Task& rhs)
 {
-	return lhs.getEffectiveDeadline() < rhs.getEffectiveDeadline();
+	return (lhs.getEffectiveDeadline() - lhs.getRemainingExe() - this->getCurrentTime()) 
+			< (rhs.getEffectiveDeadline() - rhs.getRemainingExe() - this->getCurrentTime());
 }

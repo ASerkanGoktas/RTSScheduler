@@ -17,8 +17,15 @@ int main(int argc, char* argv[])
 		std::cout << "example launch: application tasks.txt" << std::endl;
 		return 1;
 	}
-
+	
+	std::cout << argv[1] << strlen(argv[1]) << std::endl;
 	std::ifstream input(argv[1]);
+
+	if (input.fail())
+	{
+		std::cout << "faulty file: " << argv[1] << std::endl;
+		return 1;
+	}
 
 	std::string schedulerName;
 	int taskcount;
@@ -27,6 +34,8 @@ int main(int argc, char* argv[])
 	std::getline(input, schedulerName);
 	input >> taskcount;
 	input >> endtime;
+
+	std::cout << schedulerName << std::endl;
 
 	std::vector<TaskInfo> tasks;
 

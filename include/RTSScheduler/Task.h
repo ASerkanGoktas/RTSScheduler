@@ -30,7 +30,6 @@ public:
 						instanceCount++;
                         remainingExe = m_info.exeTime;
 						effectiveDeadline = current_time + (m_info.deadline == 0 ? m_info.period : m_info.deadline);
-						laxity = m_info.exeTime;
                 }
         }
 
@@ -67,6 +66,11 @@ public:
 		mtime_t getEffectiveDeadline()
 		{
 			return effectiveDeadline;
+		}
+
+		mtime_t getLaxity()
+		{
+			return laxity;
 		}
 
 private:

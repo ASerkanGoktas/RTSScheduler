@@ -30,7 +30,7 @@ mtime_t findlcm(std::vector< mtime_t >& arr)
 
 Scheduler::Scheduler() : outputStream("outputStream.txt")
 {
-
+	
 }
 
 void Scheduler::loadTasks(std::vector < TaskInfo >& tasks)
@@ -41,6 +41,11 @@ void Scheduler::loadTasks(std::vector < TaskInfo >& tasks)
 		std::unique_ptr<Task> m(new Task(i + 1, info));
 		m_tasks[i + 1] = std::move(m);
 	}
+}
+
+mtime_t Scheduler::getCurrentTime()
+{
+	return m_time;
 }
 
 void Scheduler::schedule(mtime_t end)
@@ -63,13 +68,13 @@ void Scheduler::schedule(mtime_t end)
 		m_dispatchQueue.push_back(t.first);
 	}
 
-	for (mtime_t time = 1; time < end + 1; time++)
+	for (m_time = 1; m_time < end + 1; m_time++)
 	{
 		// dispatch ready tasks
 		for (int i = 0; i < m_dispatchQueue.size(); i++)
 		{
 			auto id = m_dispatchQueue.begin() + i;
-			if (m_tasks[*id]->isReady(time))
+			if (m_tasks[*id]->isReady(m_time))
 			{
 				m_activeQueue.push_back(*id);
 				m_dispatchQueue.erase(id);
@@ -82,7 +87,7 @@ void Scheduler::schedule(mtime_t end)
 		for (int i = 0; i < m_passiveQueue.size(); i++)
 		{
 			auto id = m_passiveQueue.begin() + i;
-			if (m_tasks[*id]->isReady(time))
+			if (m_tasks[*id]->isReady(m_time))
 			{
 				m_activeQueue.push_back(*id);
 				m_passiveQueue.erase(id);
@@ -131,7 +136,7 @@ void Scheduler::schedule(mtime_t end)
 				}
 				else
 				{
-					s << time - 1 << std::endl;
+					s << m_time - 1 << std::endl;
 					lastStatText = s.str();
 				}
 
@@ -148,7 +153,7 @@ void Scheduler::schedule(mtime_t end)
 					<< ", remainingExe: " << i.second->getRemainingExe() << ", deadline: " << i.second->getEffectiveDeadline() << ") -- ";
 			}
 
-			s << "CPU: T" << toExecute << ", start: " << time - 1 << ", end:";
+			s << "CPU: T" << toExecute << ", start: " << m_time - 1 << ", end:";
 			lastStatText = s.str();
 
 			lastExecute = toExecute;
@@ -168,14 +173,14 @@ void Scheduler::schedule(mtime_t end)
 
 		for (auto& t : m_tasks)
 		{
-			if (t.second->deadlineMiss(time))
+			if (t.second->deadlineMiss(m_time))
 			{
-				outputStream << "deadline miss: T" << t.first << " at time: " << time << std::endl;
+				outputStream << "deadline miss: T" << t.first << " at time: " << m_time << std::endl;
 
 			}
 				
 
-			t.second->cycle(time);
+			t.second->cycle(m_time);
 			
 		}
 	}
